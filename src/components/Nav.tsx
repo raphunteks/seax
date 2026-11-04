@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { gsap, NO_PREF, useGSAP } from "../lib/gsap";
 import { Wordmark } from "./Wordmark";
-import { ThemeToggle } from "./ThemeToggle";
+import { ThemePicker } from "./ThemePicker";
 import { MobileMenu } from "./MobileMenu";
 
 const LINKS = [
@@ -63,35 +63,35 @@ export function Nav() {
 
   return (
     <>
-      <header ref={root} className="fixed inset-x-0 top-0 z-50 border-b border-[#232a44] bg-ink text-paper">
+      <header ref={root} className="tone-dark fixed inset-x-0 top-0 z-50 border-b border-line bg-surface text-on-surface">
         <div className="mx-auto grid h-14 max-w-[1160px] grid-cols-[1fr_auto_1fr] items-center px-4">
           <nav aria-label="Menu utama" className="hidden gap-6 md:flex">
             {LINKS.map((l) => (
-              <a key={l.href} href={l.href} aria-current={active === l.href.slice(1) ? "true" : undefined} className="font-mono text-[11px] tracking-[0.1em] text-steel uppercase transition-colors duration-200 hover:text-paper aria-[current=true]:text-glow">
+              <a key={l.href} href={l.href} aria-current={active === l.href.slice(1) ? "true" : undefined} className="font-mono text-[11px] tracking-[0.1em] text-muted uppercase transition-colors duration-200 hover:text-on-surface aria-[current=true]:text-accent">
                 {l.label}
               </a>
             ))}
           </nav>
           <button
             type="button"
-            className="justify-self-start font-mono text-[11px] tracking-[0.1em] text-steel uppercase md:hidden"
+            className="justify-self-start font-mono text-[11px] tracking-[0.1em] text-muted uppercase md:hidden"
             aria-expanded={open}
             aria-controls="mobile-menu"
             onClick={() => setOpen((v) => !v)}
           >
             {open ? "Tutup" : "Menu"}
           </button>
-          <a href="#top" aria-label="Kopi SEA, ke atas" className="text-3xl text-paper">
+          <a href="#top" aria-label="Kopi SEA, ke atas" className="text-3xl text-on-surface">
             <Wordmark />
           </a>
           <div className="flex items-center justify-self-end gap-3">
-            <ThemeToggle />
-            <a href="#pesan" className="hidden font-mono text-[11px] tracking-[0.1em] text-glow uppercase sm:inline">
+            <ThemePicker />
+            <a href="#pesan" className="hidden font-mono text-[11px] tracking-[0.1em] text-accent uppercase sm:inline">
               Order online
             </a>
           </div>
         </div>
-        <span aria-hidden="true" data-read className="absolute inset-x-0 bottom-[-1px] h-px origin-left bg-glow" style={{ transform: "scaleX(0)" }} />
+        <span aria-hidden="true" data-read className="absolute inset-x-0 bottom-[-1px] h-px origin-left bg-accent" style={{ transform: "scaleX(0)" }} />
       </header>
       <MobileMenu open={open} links={LINKS} onClose={close} />
     </>

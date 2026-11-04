@@ -46,7 +46,7 @@ export function Footer() {
       <div className="container-x grid gap-16">
         <div className="grid items-start gap-10 lg:grid-cols-[0.8fr_1.2fr]">
           <div className="grid gap-6">
-            <h2 data-split className="display text-[clamp(32px,5vw,56px)]">
+            <h2 data-split className="display text-[clamp(28px,4.4vw,52px)]">
               MAMPIR <span className="it">ke cabang terdekat.</span>
             </h2>
             <div role="group" aria-label="Pilih cabang" className="grid gap-2" data-branches>
@@ -58,7 +58,7 @@ export function Footer() {
                   aria-pressed={b.id === branch.id}
                   onClick={() => setBranchId(b.id)}
                   className={`grid gap-1 rounded-[20px] border p-4 text-left transition-colors duration-200 ${
-                    b.id === branch.id ? "border-glow bg-night" : "border-line hover:border-steel"
+                    b.id === branch.id ? "border-accent bg-panel" : "border-line hover:border-muted"
                   }`}
                 >
                   <span className="font-display text-base font-semibold">{b.name}</span>

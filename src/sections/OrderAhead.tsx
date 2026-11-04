@@ -50,10 +50,10 @@ export function OrderAhead() {
       <div className="container-x grid items-start gap-12 lg:grid-cols-2">
         <div className="grid gap-8">
           <div className="grid gap-4">
-            <h2 data-split className="display text-[clamp(32px,5.5vw,64px)]">
+            <h2 data-split className="display text-[clamp(28px,4.4vw,52px)]">
               PESAN LANGSUNG, <span className="it">tanpa ribet.</span>
             </h2>
-            <p data-reveal className="max-w-[46ch] text-steel">
+            <p data-reveal className="max-w-[46ch] text-muted">
               Tiap cabang punya kode QR sendiri. Kode dan tombolnya membuka aplikasi pesan milik cabang yang kamu pilih.
             </p>
           </div>
@@ -66,7 +66,7 @@ export function OrderAhead() {
                 aria-pressed={b.id === branch.id}
                 onClick={() => setBranchId(b.id)}
                 className={`grid gap-1 rounded-[20px] border p-4 text-left transition-colors duration-200 ${
-                  b.id === branch.id ? "border-glow bg-night" : "border-line hover:border-steel"
+                  b.id === branch.id ? "border-accent bg-panel" : "border-line hover:border-muted"
                 }`}
               >
                 <span className="font-display text-base font-semibold">{b.name}</span>
@@ -86,7 +86,7 @@ export function OrderAhead() {
         </div>
 
         <div data-print className="mx-auto grid w-full max-w-[460px] gap-0">
-          <div aria-hidden="true" className="relative z-10 h-3 rounded-full bg-night shadow-[inset_0_0_0_1px_#232a44]" />
+          <div aria-hidden="true" className="relative z-10 h-3 rounded-full bg-panel shadow-[inset_0_0_0_1px_var(--line)]" />
           <div className="-mt-1 overflow-hidden px-3 pb-6">
             <div data-slip>
               <ReceiptCard branch={branch} />

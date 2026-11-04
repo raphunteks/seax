@@ -94,17 +94,17 @@ export function Hero() {
   );
 
   return (
-    <section ref={root} id="top" className="tone-dark section relative overflow-hidden pt-28 pb-16 md:pt-36 md:pb-24">
+    <section ref={root} id="top" className="tone-light section relative overflow-hidden pt-28 pb-16 md:pt-36 md:pb-24">
       <div className="container-x grid items-center gap-12 md:grid-cols-[1.1fr_0.9fr]">
         <div data-hero-copy className="grid gap-8">
           <div data-hero-chip className="mono-label inline-flex w-fit items-center gap-2 rounded-full border border-line px-3 py-2">
-            <span aria-hidden="true" className={`h-2 w-2 rounded-full ${open ? "bg-glow" : "bg-muted"}`} />
+            <span aria-hidden="true" className={`h-2 w-2 rounded-full ${open ? "bg-accent" : "bg-muted"}`} />
             {open ? "Buka sekarang" : "Tutup"} · {site.hours.openLabel}–{site.hours.closeLabel} {site.hours.zoneLabel}
           </div>
-          <h1 data-hero-title className="display text-[clamp(40px,8vw,88px)]">
+          <h1 data-hero-title className="display text-[clamp(36px,min(6.6vw,12svh),80px)]">
             KOPI AKTIF <span className="it">Aren</span>
           </h1>
-          <p data-hero-sub className="max-w-[46ch] text-lg text-steel">
+          <p data-hero-sub className="max-w-[46ch] text-lg text-muted">
             Es kopi gula aren andalan Toko Kopi Sea. {site.tagline}
           </p>
           <div data-hero-cta className="flex flex-wrap items-center gap-3">
@@ -127,9 +127,8 @@ export function Hero() {
                 aria-pressed={i === idx}
                 onClick={() => setIdx(i)}
                 className={`mono-label rounded-full border px-3 py-2 transition-colors duration-200 ${
-                  i === idx ? "border-glow bg-glow text-ink" : "border-line text-muted hover:text-paper"
+                  i === idx ? "border-accent bg-accent text-on-btn" : "border-line text-muted hover:text-on-surface"
                 }`}
-                style={i === idx ? { color: "#0a0d18" } : undefined}
               >
                 {m.name}
               </button>
@@ -139,7 +138,7 @@ export function Hero() {
 
         <div data-hero-stack className="relative mx-auto aspect-[4/5] w-full max-w-[460px]" aria-live="polite">
           <div data-depth="10" className="absolute inset-0 grid place-items-center">
-            <div data-rise className="aspect-square w-[88%] rounded-full bg-cobalt" />
+            <div data-rise className="aspect-square w-[88%] rounded-full bg-[var(--band-bg)]" />
           </div>
           <div data-depth="22" className="absolute top-[18%] left-[-4%] w-[34%] -rotate-[8deg]">
             <div data-rise>

@@ -39,7 +39,7 @@ export function MobileMenu({ open, links, onClose }: Props) {
         <m.nav
           id="mobile-menu"
           aria-label="Menu utama"
-          className="fixed inset-x-0 top-14 bottom-0 z-40 flex flex-col justify-center gap-2 bg-ink px-6 md:hidden"
+          className="fixed inset-x-0 top-14 bottom-0 tone-dark z-40 flex flex-col justify-center gap-2 bg-surface px-6 md:hidden"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -50,7 +50,7 @@ export function MobileMenu({ open, links, onClose }: Props) {
               key={l.href}
               href={l.href}
               onClick={onClose}
-              className="display border-b border-[#232a44] py-4 text-4xl text-paper"
+              className="display border-b border-line py-4 text-4xl text-on-surface"
               initial={reduce ? false : { opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, ease: EASE, delay: reduce ? 0 : 0.07 * i }}

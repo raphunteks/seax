@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { gsap, NO_PREF, useGSAP } from "../lib/gsap";
 import { useSectionIntro } from "../hooks/useSectionIntro";
+import { useViewportKey } from "../hooks/useViewportKey";
 import { bySlug, formatIDR } from "../data/menu";
 import { site } from "../data/site";
 import { CupArt } from "../components/CupArt";
@@ -44,6 +45,7 @@ const pad = (n: number) => String(n).padStart(2, "0");
 export function TimeDial() {
   const root = useRef<HTMLElement>(null);
   useSectionIntro(root);
+  const viewport = useViewportKey();
 
   useGSAP(
     () => {
@@ -103,20 +105,20 @@ export function TimeDial() {
       });
       return () => mm.revert();
     },
-    { scope: root },
+    { scope: root, dependencies: [viewport], revertOnUpdate: true },
   );
 
   const open = `${site.hours.openLabel}–${site.hours.closeLabel} ${site.hours.zoneLabel}`;
 
   return (
     <section ref={root} id="jam" className="tone-light section scroll-mt-14 !py-0">
-      <div className="container-x grid min-h-[calc(100svh-56px)] items-center gap-8 py-6 md:grid-cols-2 md:gap-12 md:py-0">
-        <div className="grid gap-8">
-          <div className="grid gap-4">
-            <h2 data-split className="display text-[clamp(32px,5.5vw,60px)]">
+      <div className="container-x grid h-[calc(100svh-56px)] items-center gap-6 py-4 md:grid-cols-2 md:gap-12 md:py-6">
+        <div className="grid gap-5 md:gap-6">
+          <div className="grid gap-3">
+            <h2 data-split className="display text-[clamp(26px,min(4.4vw,8svh),48px)]">
               SEPANJANG <span className="it">hari</span>
             </h2>
-            <p data-reveal className="hidden text-muted md:block">
+            <p data-reveal className="hidden text-muted md:block [@media(max-height:640px)]:!hidden">
               Buka setiap hari, {open}. Ini yang kami sarankan tiap jamnya.
             </p>
           </div>
@@ -132,21 +134,21 @@ export function TimeDial() {
                   style={{ opacity: i === DEFAULT_IDX ? 1 : 0 }}
                 >
                   <span className="mono-label text-accent">Saran minum {s.label}</span>
-                  <p className="display text-2xl">{item?.name}</p>
+                  <p className="display text-xl md:text-2xl">{item?.name}</p>
                   <p className="text-muted">{s.line}</p>
                 </div>
               );
             })}
           </div>
 
-          <ol className="hidden gap-0 border-t border-line md:grid motion-reduce:grid">
+          <ol className="hidden gap-0 border-t border-line md:grid motion-reduce:grid [@media(max-height:720px)]:!hidden">
             {STOPS.map((s) => {
               const item = bySlug(s.slug);
               return (
                 <li
                   key={s.slug}
                   data-row
-                  className="flex items-baseline justify-between gap-4 border-b border-line py-3 font-mono text-sm transition-colors duration-200"
+                  className="flex items-baseline justify-between gap-4 border-b border-line py-2.5 font-mono text-sm transition-colors duration-200"
                 >
                   <span>{s.label}</span>
                   <span className="flex-1 text-right">{item?.name}</span>
@@ -157,7 +159,7 @@ export function TimeDial() {
           </ol>
         </div>
 
-        <div className="mx-auto grid w-full max-w-[min(460px,34svh)] gap-4 md:max-w-[460px]" data-reveal>
+        <div className="mx-auto grid w-full max-w-[min(460px,34svh)] gap-4 md:max-w-[min(440px,calc(100svh-56px-120px))]" data-reveal>
           <div data-dial className="relative aspect-square w-full">
           <div className="absolute inset-0 grid place-items-center">
             <div className="relative w-[27%]">

@@ -156,10 +156,22 @@
     </script>
 
     <script>
-      try {
-        var t = localStorage.getItem("kopisea-theme");
-        if (t === "dark" || t === "light") document.documentElement.dataset.theme = t;
-      } catch (e) {}
+      (function () {
+        var d = document.documentElement,
+          t = "auto";
+        try {
+          t = localStorage.getItem("kopisea-theme") || "auto";
+        } catch (e) {}
+        t = { light: "siang", dark: "malam" }[t] || t;
+        if (["auto", "siang", "malam", "aren", "pandan", "sunrise"].indexOf(t) < 0) t = "auto";
+        var r = t;
+        if (t === "auto") {
+          var h = +new Intl.DateTimeFormat("en-GB", { hour: "2-digit", hourCycle: "h23", timeZone: "Asia/Makassar" }).format(new Date());
+          r = h >= 9 && h < 12 ? "sunrise" : h >= 12 && h < 16 ? "siang" : h >= 16 && h < 19 ? "aren" : "malam";
+        }
+        d.dataset.theme = r;
+        d.dataset.themePref = t;
+      })();
     </script>
   </head>
   <body>

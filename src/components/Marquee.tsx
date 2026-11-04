@@ -16,7 +16,7 @@ function Group({ hidden }: { hidden?: boolean }) {
       {ITEMS.map((t) => (
         <li key={t} className="flex items-center gap-[0.6em] pr-[0.6em]">
           <span>{t}</span>
-          <span aria-hidden="true" className="inline-block h-[0.28em] w-[0.28em] rounded-full bg-glow" />
+          <span aria-hidden="true" className="inline-block h-[0.28em] w-[0.28em] rounded-full bg-[var(--band-fg)] opacity-60" />
         </li>
       ))}
     </ul>
@@ -78,7 +78,7 @@ export function Marquee() {
   );
 
   return (
-    <div ref={root} className="overflow-hidden bg-cobalt py-4 text-paper md:py-5">
+    <div ref={root} className="overflow-hidden bg-[var(--band-bg)] py-4 text-[var(--band-fg)] md:py-5">
       <div data-track className="display flex w-max text-[clamp(22px,4vw,44px)] leading-none uppercase">
         <Group />
         <Group hidden />

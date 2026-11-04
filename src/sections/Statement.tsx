@@ -113,7 +113,7 @@ export function Statement() {
         ))}
       </div>
       <div className="container-x relative grid min-h-[70svh] content-center gap-10">
-        <h2 data-words className="display text-[clamp(44px,11vw,150px)] leading-[0.98]">
+        <h2 data-words className="display text-[clamp(34px,min(8.5vw,16svh),108px)] leading-[0.98]">
           {WORDS.map((w, i) => (
             <Fragment key={w}>
               {i > 0 ? " " : null}
@@ -123,7 +123,7 @@ export function Statement() {
             </Fragment>
           ))}
         </h2>
-        <p className="max-w-[44ch] text-lg text-steel">
+        <p className="max-w-[44ch] text-lg text-muted">
           Seperti kopi yang perlu proses untuk jadi <em className="it">nikmat</em>. Kami buka dari pagi sampai malam supaya
           ngopinya tidak perlu buru-buru.
         </p>
@@ -131,7 +131,7 @@ export function Statement() {
           {STATS.map((st) => (
             <div key={st.label} data-stat-item className="grid gap-2">
               <dt className="mono-label order-2">{st.label}</dt>
-              <dd data-stat={st.value} className="display order-1 text-[clamp(32px,6vw,64px)] leading-none">
+              <dd data-stat={st.value} className="display order-1 text-[clamp(28px,4.6vw,52px)] leading-none">
                 {st.value}
               </dd>
             </div>

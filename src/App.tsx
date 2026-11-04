@@ -108,7 +108,7 @@ export default function App() {
     <LazyMotion features={() => import("./lib/motionFeatures").then((mod) => mod.default)} strict>
       <a
         href="#menu"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[110] focus:rounded-full focus:bg-glow focus:px-4 focus:py-2 focus:text-ink"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[110] focus:rounded-full focus:bg-accent focus:px-4 focus:py-2 focus:text-on-btn"
       >
         Lewati ke menu
       </a>

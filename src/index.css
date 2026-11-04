@@ -34,64 +34,149 @@
   --color-on-btn: var(--btn-fg);
 }
 
-:root {
-  --surface: #f3f5fb;
-  --panel: #ffffff;
-  --on-surface: #0a0d18;
-  --muted: #4a5575;
-  --line: #c9d1e6;
-  --accent: #0f3bb4;
-  --btn-bg: #0f3bb4;
-  --btn-fg: #ffffff;
-  --dur-press: 120ms;
-  --dur-hover: 200ms;
+/* Themes. Each theme has a base tone (--t-*) and an alternate tone (--a-*) used by the darker bands.
+   .tone-light reads the base tone, .tone-dark the alternate one. Default (no data-theme) is Siang. */
+:root,
+:root[data-theme="siang"] {
+  --t-surface: #FDFBF5;
+  --t-panel: #FFFFFF;
+  --t-text: #0A0D18;
+  --t-muted: #4A5575;
+  --t-line: #D9D5C5;
+  --t-accent: #0F3BB4;
+  --t-btn: #0F3BB4;
+  --t-btnfg: #FDFBF5;
+  --a-surface: #0A0D18;
+  --a-panel: #11162A;
+  --a-text: #F3F5FB;
+  --a-muted: #9AA6C4;
+  --a-line: #232A44;
+  --a-accent: #7C97FF;
+  --a-btn: #7C97FF;
+  --a-btnfg: #0A0D18;
+  --band-bg: #0F3BB4;
+  --band-fg: #FDFBF5;
+  color-scheme: light;
+}
+:root[data-theme="malam"] {
+  --t-surface: #0F1426;
+  --t-panel: #151B33;
+  --t-text: #F3F5FB;
+  --t-muted: #9AA6C4;
+  --t-line: #232A44;
+  --t-accent: #7C97FF;
+  --t-btn: #7C97FF;
+  --t-btnfg: #0A0D18;
+  --a-surface: #0A0D18;
+  --a-panel: #11162A;
+  --a-text: #F3F5FB;
+  --a-muted: #9AA6C4;
+  --a-line: #232A44;
+  --a-accent: #7C97FF;
+  --a-btn: #7C97FF;
+  --a-btnfg: #0A0D18;
+  --band-bg: #0F3BB4;
+  --band-fg: #F3F5FB;
+  color-scheme: dark;
+}
+:root[data-theme="aren"] {
+  --t-surface: #F4E8D6;
+  --t-panel: #FFF6E8;
+  --t-text: #2B1710;
+  --t-muted: #6B4A38;
+  --t-line: #D9C3A2;
+  --t-accent: #A34E0C;
+  --t-btn: #2B1710;
+  --t-btnfg: #FFF6E8;
+  --a-surface: #2B1710;
+  --a-panel: #3A2217;
+  --a-text: #F4E8D6;
+  --a-muted: #CDB394;
+  --a-line: #5A3A28;
+  --a-accent: #F0A04B;
+  --a-btn: #F0A04B;
+  --a-btnfg: #2B1710;
+  --band-bg: #8F4309;
+  --band-fg: #FFF6E8;
+  color-scheme: light;
+}
+:root[data-theme="pandan"] {
+  --t-surface: #EAF3EA;
+  --t-panel: #F7FBF5;
+  --t-text: #11261C;
+  --t-muted: #3F5A4B;
+  --t-line: #BFD6C5;
+  --t-accent: #17694A;
+  --t-btn: #17694A;
+  --t-btnfg: #F7FBF5;
+  --a-surface: #0F2A1E;
+  --a-panel: #163628;
+  --a-text: #EAF3EA;
+  --a-muted: #A9C7B4;
+  --a-line: #2B4A39;
+  --a-accent: #6FD3A0;
+  --a-btn: #6FD3A0;
+  --a-btnfg: #0F2A1E;
+  --band-bg: #17694A;
+  --band-fg: #F7FBF5;
+  color-scheme: light;
+}
+:root[data-theme="sunrise"] {
+  --t-surface: #FFE9DA;
+  --t-panel: #FFF7F0;
+  --t-text: #2A1030;
+  --t-muted: #6A4A66;
+  --t-line: #EDC7B0;
+  --t-accent: #B8310C;
+  --t-btn: #2A1030;
+  --t-btnfg: #FFE9DA;
+  --a-surface: #2A1030;
+  --a-panel: #3A1A44;
+  --a-text: #FFE9DA;
+  --a-muted: #D9B8C8;
+  --a-line: #5A2F66;
+  --a-accent: #FF8A5B;
+  --a-btn: #FF8A5B;
+  --a-btnfg: #2A1030;
+  --band-bg: #C23410;
+  --band-fg: #FFF7F0;
   color-scheme: light;
 }
 
-/* Dark sections are dark in both themes. */
+:root {
+  --dur-press: 120ms;
+  --dur-hover: 200ms;
+}
+:root,
+.tone-light {
+  --surface: var(--t-surface);
+  --panel: var(--t-panel);
+  --on-surface: var(--t-text);
+  --muted: var(--t-muted);
+  --line: var(--t-line);
+  --accent: var(--t-accent);
+  --btn-bg: var(--t-btn);
+  --btn-fg: var(--t-btnfg);
+}
 .tone-dark {
-  --surface: #0a0d18;
-  --panel: #11162a;
-  --on-surface: #f3f5fb;
-  --muted: #9aa6c4;
-  --line: #232a44;
-  --accent: #7c97ff;
-  --btn-bg: #7c97ff;
-  --btn-fg: #0a0d18;
-}
-
-/* Dark theme: light sections become deep navy so the page reads as one night. */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .tone-light {
-    --surface: #0f1426;
-    --panel: #151b33;
-    --on-surface: #f3f5fb;
-    --muted: #9aa6c4;
-    --line: #232a44;
-    --accent: #7c97ff;
-    --btn-bg: #7c97ff;
-    --btn-fg: #0a0d18;
-  }
-}
-:root[data-theme="dark"] .tone-light {
-  --surface: #0f1426;
-  --panel: #151b33;
-  --on-surface: #f3f5fb;
-  --muted: #9aa6c4;
-  --line: #232a44;
-  --accent: #7c97ff;
-  --btn-bg: #7c97ff;
-  --btn-fg: #0a0d18;
+  --surface: var(--a-surface);
+  --panel: var(--a-panel);
+  --on-surface: var(--a-text);
+  --muted: var(--a-muted);
+  --line: var(--a-line);
+  --accent: var(--a-accent);
+  --btn-bg: var(--a-btn);
+  --btn-fg: var(--a-btnfg);
 }
 
 html {
   scroll-behavior: smooth;
-  background: #0a0d18;
+  background: var(--t-surface);
 }
 body {
   margin: 0;
-  background: #0a0d18;
-  color: #f3f5fb;
+  background: var(--t-surface);
+  color: var(--t-text);
   font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.55;
@@ -99,8 +184,8 @@ body {
   text-rendering: optimizeLegibility;
 }
 ::selection {
-  background: #0f3bb4;
-  color: #fff;
+  background: var(--accent);
+  color: var(--btn-fg);
 }
 :focus-visible {
   outline: 2px solid var(--accent);
@@ -132,9 +217,9 @@ body {
   }
   .display {
     font-family: var(--font-display);
-    font-weight: 900;
-    letter-spacing: -0.03em;
-    line-height: 1.02;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.06;
     text-wrap: balance;
   }
   .it {
@@ -207,5 +292,22 @@ body {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+  }
+}
+
+/* Theme change: the new colors spread from the picker as a circle (set up in lib/theme.ts). */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+.theme-pop {
+  animation: theme-pop 180ms var(--ease-out);
+  transform-origin: top right;
+}
+@keyframes theme-pop {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.97);
   }
 }
