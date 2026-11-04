@@ -39,6 +39,7 @@ const tests = [
   { name: "geo.placename", val: getMeta("name", "geo.placename"), required: true },
   { name: "geo.position", val: getMeta("name", "geo.position"), required: true },
   { name: "ICBM", val: getMeta("name", "ICBM"), required: true },
+  { name: "google-site-verification", val: getMeta("name", "google-site-verification"), required: true },
 ];
 
 let failed = false;
@@ -112,3 +113,4 @@ if (failed) {
 } else {
   console.log("\n🎉 ALL E2E AUDITS PASSED WITH FLYING COLORS!");
 }
+
