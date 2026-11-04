@@ -84,8 +84,16 @@ export function Footer() {
           </div>
         </div>
 
-        <div data-word aria-hidden="true" className="overflow-hidden leading-none">
-          <Wordmark className="!block !h-auto !w-full" />
+        <div className="grid gap-4 sm:gap-6">
+          <div data-word aria-hidden="true" className="overflow-hidden leading-none">
+            <Wordmark className="!block !h-auto !w-full" />
+          </div>
+          <p
+            data-reveal
+            className="text-center font-display text-[clamp(11px,1.8vw,18px)] font-semibold uppercase tracking-[0.14em] sm:tracking-[0.2em] text-muted"
+          >
+            Built for Social &amp; Active People
+          </p>
         </div>
 
         <div className="grid gap-10 border-t border-line pt-10 sm:grid-cols-3">
