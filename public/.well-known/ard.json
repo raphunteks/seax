@@ -1,0 +1,23 @@
+{
+  "specVersion": "0.91",
+  "entries": [
+    {
+      "identifier": "urn:air:kopisea.vercel.app:skills:kopi-sea",
+      "displayName": "Kopi SEA: menu, cabang, jam buka, dan link pesan",
+      "type": "text/markdown; profile=\"urn:air:agent-skills\"",
+      "url": "https://kopisea.vercel.app/.well-known/agent-skills/kopi-sea/SKILL.md",
+      "representativeQueries": [
+        "Apa saja menu dan harga di Kopi SEA Makassar?",
+        "Di mana cabang Kopi SEA dan jam bukanya?",
+        "Bagaimana cara pesan langsung dari Kopi SEA?",
+        "Es kopi gula aren paling laris di Makassar"
+      ],
+      "description": "Menu, harga, tiga cabang di Makassar, jam buka 09.00-22.00 WITA, dan link pesan langsung Toko Kopi Sea.",
+      "capabilities": [
+        "MenuLookup",
+        "BranchLookup",
+        "OrderLink"
+      ]
+    }
+  ]
+}

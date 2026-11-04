@@ -107,6 +107,56 @@ if (!jsonLdMatch) {
   }
 }
 
+// Check Sitemap XML
+console.log("\n5. SITEMAP XML STANDARDS CHECK:");
+const sitemapPath = path.join(distDir, "sitemap.xml");
+if (!fs.existsSync(sitemapPath)) {
+  console.error("❌ [FAIL] Missing dist/sitemap.xml");
+  failed = true;
+} else {
+  const sitemapContent = fs.readFileSync(sitemapPath, "utf-8");
+  const locs = [...sitemapContent.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
+  console.log(`Found ${locs.length} URLs in sitemap.xml:`);
+  locs.forEach((loc) => {
+    if (loc.includes("#")) {
+      console.error(`❌ [FAIL] URL contains fragment hash (#) which Googlebot ignores: ${loc}`);
+      failed = true;
+    } else {
+      console.log(`   ✅ [PASS] Clean canonical URL: ${loc}`);
+    }
+  });
+}
+
+// Check Prerendered Route HTML Files
+console.log("\n6. PRERENDERED ROUTE PAGES AUDIT:");
+const routes = ["menu", "jam", "pesan", "lokasi"];
+routes.forEach((route) => {
+  const pagePath = path.join(distDir, route, "index.html");
+  if (!fs.existsSync(pagePath)) {
+    console.error(`❌ [FAIL] Route HTML missing: dist/${route}/index.html`);
+    failed = true;
+  } else {
+    const pageHtml = fs.readFileSync(pagePath, "utf-8");
+    const canonicalMatch = pageHtml.match(/<link\s+rel=["']canonical["']\s+href=["']([^"']+)["']/i);
+    const ogUrlMatch = pageHtml.match(/<meta\s+property=["']og:url["']\s+content=["']([^"']+)["']/i);
+    const expectedUrl = `https://kopisea.vercel.app/${route}`;
+
+    if (canonicalMatch && canonicalMatch[1] === expectedUrl) {
+      console.log(`   ✅ [PASS] /${route} canonical matches: "${canonicalMatch[1]}"`);
+    } else {
+      console.error(`   ❌ [FAIL] /${route} invalid canonical. Got: "${canonicalMatch?.[1]}" expected: "${expectedUrl}"`);
+      failed = true;
+    }
+
+    if (ogUrlMatch && ogUrlMatch[1] === expectedUrl) {
+      console.log(`   ✅ [PASS] /${route} og:url matches: "${ogUrlMatch[1]}"`);
+    } else {
+      console.error(`   ❌ [FAIL] /${route} invalid og:url. Got: "${ogUrlMatch?.[1]}" expected: "${expectedUrl}"`);
+      failed = true;
+    }
+  }
+});
+
 if (failed) {
   console.error("\n❌ E2E AUDIT FAILED!");
   process.exit(1);

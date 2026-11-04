@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://kopisea.vercel.app/sitemap.xml
+# Agentmap: https://kopisea.vercel.app/.well-known/ard.json

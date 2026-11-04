@@ -28,25 +28,49 @@ const SECTIONS: SectionDef[] = [
 ];
 
 /**
- * Loads sections just-in-time when the user scrolls near them, clicks an anchor,
+ * Loads sections just-in-time when the user scrolls near them, navigates to a route,
  * or touches the screen. Off-screen sections are kept unmounted during initial load,
  * guaranteeing 0 ms Total Blocking Time on mobile.
  */
+function isRouteMatch(id: string): boolean {
+  if (typeof window === "undefined") return false;
+  const path = window.location.pathname.replace(/^\/|\/$/g, "");
+  const hash = window.location.hash.replace(/^#/, "");
+  return path === id || hash === id;
+}
+
 function LazySection({ id, C, height }: SectionDef) {
-  const [show, setShow] = useState(() => {
-    if (typeof window === "undefined") return false;
-    return window.location.hash === `#${id}`;
-  });
+  const [show, setShow] = useState(() => isRouteMatch(id));
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (show) return;
-    const el = ref.current;
-    if (!el) return;
+    const trigger = () => setShow(true);
 
-    const trigger = () => {
-      setShow(true);
+    const onRouteNav = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      if (detail?.id === id) trigger();
     };
+    window.addEventListener("route-navigate", onRouteNav);
+
+    const onPopState = () => {
+      if (isRouteMatch(id)) trigger();
+    };
+    window.addEventListener("popstate", onPopState);
+
+    if (show) {
+      return () => {
+        window.removeEventListener("route-navigate", onRouteNav);
+        window.removeEventListener("popstate", onPopState);
+      };
+    }
+
+    const el = ref.current;
+    if (!el) {
+      return () => {
+        window.removeEventListener("route-navigate", onRouteNav);
+        window.removeEventListener("popstate", onPopState);
+      };
+    }
 
     // User interaction immediately triggers loading
     const events = ["scroll", "pointerdown", "touchstart", "keydown"] as const;
@@ -70,10 +94,24 @@ function LazySection({ id, C, height }: SectionDef) {
     const timer = window.setTimeout(trigger, 3500);
 
     return () => {
+      window.removeEventListener("route-navigate", onRouteNav);
+      window.removeEventListener("popstate", onPopState);
       events.forEach((e) => window.removeEventListener(e, trigger));
       io?.disconnect();
       window.clearTimeout(timer);
     };
+  }, [show, id]);
+
+  // When loaded via direct clean route or popstate, smoothly scroll into view
+  useEffect(() => {
+    if (!show) return;
+    if (isRouteMatch(id)) {
+      const timer = window.setTimeout(() => {
+        const el = document.getElementById(id);
+        el?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+      return () => window.clearTimeout(timer);
+    }
   }, [show, id]);
 
   return show ? (

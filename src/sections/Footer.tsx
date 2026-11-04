@@ -3,6 +3,7 @@ import { gsap, NO_PREF, useGSAP } from "../lib/gsap";
 import { Wordmark } from "../components/Wordmark";
 import { useSectionIntro } from "../hooks/useSectionIntro";
 import { site, mapsUrl } from "../data/site";
+import { navigateTo } from "../lib/router";
 
 export function Footer() {
   const root = useRef<HTMLElement>(null);
@@ -99,9 +100,36 @@ export function Footer() {
         <div className="grid gap-10 border-t border-line pt-10 sm:grid-cols-3">
           <div data-reveal className="grid content-start gap-3">
             <h3 className="mono-label">Menu</h3>
-            <a className="hover:text-accent" href="#menu">Favorit dan daftar lengkap</a>
-            <a className="hover:text-accent" href="#jam">Saran minum per jam</a>
-            <a className="hover:text-accent" href="#pesan">Pesan langsung</a>
+            <a
+              className="hover:text-accent"
+              href="/menu"
+              onClick={(e) => {
+                e.preventDefault();
+                navigateTo("/menu");
+              }}
+            >
+              Favorit dan daftar lengkap
+            </a>
+            <a
+              className="hover:text-accent"
+              href="/jam"
+              onClick={(e) => {
+                e.preventDefault();
+                navigateTo("/jam");
+              }}
+            >
+              Saran minum per jam
+            </a>
+            <a
+              className="hover:text-accent"
+              href="/pesan"
+              onClick={(e) => {
+                e.preventDefault();
+                navigateTo("/pesan");
+              }}
+            >
+              Pesan langsung
+            </a>
           </div>
           <div data-reveal className="grid content-start gap-3">
             <h3 className="mono-label">Jam buka</h3>

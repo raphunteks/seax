@@ -7,6 +7,7 @@ import { CupArt } from "../components/CupArt";
 import { HeroCupSwap } from "../components/HeroCupSwap";
 import { FeaturedTag } from "../components/FeaturedTag";
 import { Magnetic } from "../components/Magnetic";
+import { navigateTo } from "../lib/router";
 
 /** Drinks the visitor can flip through in the hero (first three featured). */
 const HERO_ITEMS = featured.slice(0, 3);
@@ -111,12 +112,26 @@ export function Hero() {
           </p>
           <div data-hero-cta className="flex flex-wrap items-center gap-3">
             <Magnetic>
-              <a href="#pesan" className="btn">
+              <a
+                href="/pesan"
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigateTo("/pesan");
+                }}
+                className="btn"
+              >
                 Pesan sekarang
               </a>
             </Magnetic>
             <Magnetic>
-              <a href="#menu" className="btn btn-ghost">
+              <a
+                href="/menu"
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigateTo("/menu");
+                }}
+                className="btn btn-ghost"
+              >
                 Lihat menu
               </a>
             </Magnetic>

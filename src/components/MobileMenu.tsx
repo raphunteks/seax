@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { AnimatePresence, useReducedMotion } from "motion/react";
 import * as m from "motion/react-m";
+import { navigateTo } from "../lib/router";
 
 interface Link {
   href: string;
@@ -49,7 +50,11 @@ export function MobileMenu({ open, links, onClose }: Props) {
             <m.a
               key={l.href}
               href={l.href}
-              onClick={onClose}
+              onClick={(e) => {
+                e.preventDefault();
+                navigateTo(l.href);
+                onClose();
+              }}
               className="display border-b border-line py-4 text-4xl text-on-surface"
               initial={reduce ? false : { opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}

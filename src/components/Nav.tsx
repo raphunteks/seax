@@ -3,12 +3,13 @@ import { gsap, NO_PREF, useGSAP } from "../lib/gsap";
 import { Wordmark } from "./Wordmark";
 import { ThemePicker } from "./ThemePicker";
 import { MobileMenu } from "./MobileMenu";
+import { navigateTo } from "../lib/router";
 
-const LINKS = [
-  { href: "#menu", label: "Menu" },
-  { href: "#jam", label: "Jam" },
-  { href: "#pesan", label: "Pesan" },
-  { href: "#lokasi", label: "Lokasi" },
+export const LINKS = [
+  { href: "/menu", id: "menu", label: "Menu" },
+  { href: "/jam", id: "jam", label: "Jam" },
+  { href: "/pesan", id: "pesan", label: "Pesan" },
+  { href: "/lokasi", id: "lokasi", label: "Lokasi" },
 ] as const;
 
 export function Nav() {
@@ -18,29 +19,41 @@ export function Nav() {
 
   const [active, setActive] = useState<string>("");
 
-  // Mark the link of the section in the middle of the screen. Sections mount late, so observe again once they exist.
+  // Mark the link of the section crossing the middle of the screen during user scroll.
+  // Deferred so it never triggers forced reflows during the initial load window.
   useEffect(() => {
-    let io: IntersectionObserver | undefined;
-    const observe = () => {
-      io?.disconnect();
-      io = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((e) => {
-            if (e.isIntersecting) setActive(e.target.id);
-          });
-        },
-        { rootMargin: "-45% 0px -50% 0px" },
-      );
-      LINKS.forEach((l) => {
-        const el = document.getElementById(l.href.slice(1));
-        if (el) io?.observe(el);
-      });
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      if (window.scrollY < 120) {
+        setActive("");
+        if (window.location.pathname !== "/") {
+          window.history.replaceState(null, "", "/");
+        }
+        return;
+      }
+      const mid = window.innerHeight * 0.45;
+      let current = "";
+      for (const l of LINKS) {
+        const el = document.getElementById(l.id);
+        if (!el) continue;
+        const r = el.getBoundingClientRect();
+        if (r.top <= mid && r.bottom > mid) current = l.id;
+      }
+      setActive(current);
+      if (current && window.location.pathname !== `/${current}`) {
+        window.history.replaceState(null, "", `/${current}`);
+      }
     };
-    observe();
-    window.addEventListener("kopi:ready", observe);
+
+    const onScroll = () => {
+      if (!raf) raf = window.requestAnimationFrame(update);
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
-      window.removeEventListener("kopi:ready", observe);
-      io?.disconnect();
+      window.removeEventListener("scroll", onScroll);
+      if (raf) window.cancelAnimationFrame(raf);
     };
   }, []);
 
@@ -67,7 +80,16 @@ export function Nav() {
         <div className="mx-auto grid h-14 max-w-[1160px] grid-cols-[1fr_auto_1fr] items-center px-4">
           <nav aria-label="Menu utama" className="hidden gap-6 md:flex">
             {LINKS.map((l) => (
-              <a key={l.href} href={l.href} aria-current={active === l.href.slice(1) ? "true" : undefined} className="font-mono text-[11px] tracking-[0.1em] text-muted uppercase transition-colors duration-200 hover:text-on-surface aria-[current=true]:text-accent">
+              <a
+                key={l.href}
+                href={l.href}
+                aria-current={active === l.id ? "true" : undefined}
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigateTo(l.href);
+                }}
+                className="font-mono text-[11px] tracking-[0.1em] text-muted uppercase transition-colors duration-200 hover:text-on-surface aria-[current=true]:text-accent"
+              >
                 {l.label}
               </a>
             ))}
@@ -81,12 +103,27 @@ export function Nav() {
           >
             {open ? "Tutup" : "Menu"}
           </button>
-          <a href="#top" aria-label="Kopi SEA, ke atas" className="text-3xl text-on-surface">
+          <a
+            href="/"
+            aria-label="Kopi SEA, ke atas"
+            onClick={(e) => {
+              e.preventDefault();
+              navigateTo("/");
+            }}
+            className="text-3xl text-on-surface"
+          >
             <Wordmark />
           </a>
           <div className="flex items-center justify-self-end gap-3">
             <ThemePicker />
-            <a href="#pesan" className="hidden font-mono text-[11px] tracking-[0.1em] text-accent uppercase sm:inline">
+            <a
+              href="/pesan"
+              onClick={(e) => {
+                e.preventDefault();
+                navigateTo("/pesan");
+              }}
+              className="hidden font-mono text-[11px] tracking-[0.1em] text-accent uppercase sm:inline"
+            >
               Order online
             </a>
           </div>
