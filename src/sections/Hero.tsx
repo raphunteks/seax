@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { gsap, NO_PREF, ScrollTrigger, SplitText, useGSAP } from "../lib/gsap";
+import { gsap, NO_PREF, SplitText, useGSAP } from "../lib/gsap";
 import { featured } from "../data/menu";
 import { site } from "../data/site";
 import { useOpenNow } from "../hooks/useOpenNow";
@@ -31,13 +31,22 @@ export function Hero() {
         if (title) {
           document.fonts.ready.then(() => {
             if (cancelled) return;
-            split = SplitText.create(title, { type: "lines", mask: "lines" });
-            gsap.from(split.lines, {
-              yPercent: 110,
-              duration: 0.6,
-              stagger: 0.05,
-              ease: "kopi",
-            });
+            if (window.innerWidth >= 768) {
+              split = SplitText.create(title, { type: "lines", mask: "lines" });
+              gsap.from(split.lines, {
+                yPercent: 110,
+                duration: 0.6,
+                stagger: 0.05,
+                ease: "kopi",
+              });
+            } else {
+              gsap.from(title, {
+                y: 16,
+                opacity: 0,
+                duration: 0.5,
+                ease: "kopi",
+              });
+            }
           });
         }
 
@@ -47,13 +56,6 @@ export function Hero() {
           .from("[data-hero-cta]", { y: 12, opacity: 0, duration: 0.5 }, 0.15)
           .from("[data-rise]", { y: 40, opacity: 0, duration: 0.6, stagger: 0.05 }, 0.1)
           .from("[data-hero-tag]", { opacity: 0, duration: 0.4 }, 0.5);
-
-        // Ambient float on the main cup only, paused when the hero is off screen.
-        const float = gsap.to("[data-float]", { y: -8, duration: 4.5, ease: "sine.inOut", yoyo: true, repeat: -1 });
-        ScrollTrigger.create({
-          trigger: scope,
-          onToggle: (self) => (self.isActive ? float.resume() : float.pause()),
-        });
 
         return () => {
           cancelled = true;
@@ -152,7 +154,7 @@ export function Hero() {
           </div>
           <div data-depth="38" className="absolute inset-x-[22%] top-[6%]">
             <div data-rise>
-              <div data-float>
+              <div data-float className="animate-float">
                 <HeroCupSwap kind={item.kind} label={`${item.name}, gelas es kopi`} />
               </div>
             </div>

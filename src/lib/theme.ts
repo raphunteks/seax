@@ -1,5 +1,3 @@
-import { site } from "../data/site";
-
 export type ThemeId = "siang" | "malam" | "aren" | "pandan" | "sunrise";
 export type ThemePref = ThemeId | "auto";
 
@@ -16,9 +14,9 @@ export const THEMES: { id: ThemeId; label: string; note: string; surface: string
 
 const IDS = THEMES.map((t) => t.id as string);
 
-/** Hour of day (0-23) in the shop's time zone. */
+/** Hour of day (0-23) in the shop's time zone (WITA = UTC+8). */
 export function shopHour(now = new Date()): number {
-  return Number(new Intl.DateTimeFormat("en-GB", { hour: "2-digit", hourCycle: "h23", timeZone: site.timeZone }).format(now));
+  return (now.getUTCHours() + 8) % 24;
 }
 
 /** "Ikut Jam": the page follows the day, in step with the time dial. */

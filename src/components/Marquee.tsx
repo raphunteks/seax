@@ -35,7 +35,8 @@ export function Marquee() {
       const scope = root.current;
       if (!scope) return;
       const mm = gsap.matchMedia();
-      mm.add(NO_PREF, () => {
+      // Desktop: velocity-sensitive ticker
+      mm.add(`(min-width: 768px) and ${NO_PREF}`, () => {
         const loop = gsap.to("[data-track]", { xPercent: -50, ease: "none", duration: 32, repeat: -1 });
         let dir = 1;
         let boost = 1;
@@ -51,7 +52,6 @@ export function Marquee() {
           ts += (dir * boost - ts) * 0.1;
           loop.timeScale(ts);
         };
-        gsap.ticker.add(tick);
         // Idle while off screen.
         const vis = ScrollTrigger.create({
           trigger: scope,
@@ -68,6 +68,19 @@ export function Marquee() {
         return () => {
           gsap.ticker.remove(tick);
           vel.kill();
+          vis.kill();
+          loop.kill();
+        };
+      });
+
+      // Mobile: lightweight steady loop, zero ticker CPU overhead
+      mm.add(`(max-width: 767px) and ${NO_PREF}`, () => {
+        const loop = gsap.to("[data-track]", { xPercent: -50, ease: "none", duration: 32, repeat: -1 });
+        const vis = ScrollTrigger.create({
+          trigger: scope,
+          onToggle: (self) => (self.isActive ? loop.resume() : loop.pause()),
+        });
+        return () => {
           vis.kill();
           loop.kill();
         };

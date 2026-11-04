@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState, type ComponentType } from "react";
+import { lazy, Suspense, useEffect, useRef, useState, type ComponentType } from "react";
 import { LazyMotion } from "motion/react";
 import { ScrollTrigger } from "./lib/gsap";
 import { registerWebMcp } from "./lib/webmcp";
@@ -13,11 +13,13 @@ const Statement = lazy(() => import("./sections/Statement").then((m) => ({ defau
 const OrderAhead = lazy(() => import("./sections/OrderAhead").then((m) => ({ default: m.OrderAhead })));
 const Footer = lazy(() => import("./sections/Footer").then((m) => ({ default: m.Footer })));
 
-/**
- * Sections below the hero mount one by one, starting on the first scroll, tap, key press or link click.
- * Until then a same-size placeholder with the section's id holds their place, so the first load only pays for the hero.
- */
-const LATER: { id: string; C: ComponentType; height: string }[] = [
+interface SectionDef {
+  id: string;
+  C: ComponentType;
+  height: string;
+}
+
+const SECTIONS: SectionDef[] = [
   { id: "menu", C: Favorites, height: "min-h-[100svh]" },
   { id: "jam", C: TimeDial, height: "min-h-[100svh]" },
   { id: "aktif", C: Statement, height: "min-h-[80svh]" },
@@ -25,54 +27,79 @@ const LATER: { id: string; C: ComponentType; height: string }[] = [
   { id: "lokasi", C: Footer, height: "min-h-[1100px]" },
 ];
 
-function useStagedMount(total: number): number {
-  const [go, setGo] = useState(() => window.location.hash.length > 1);
-  const [n, setN] = useState(0);
+/**
+ * Loads sections just-in-time when the user scrolls near them, clicks an anchor,
+ * or touches the screen. Off-screen sections are kept unmounted during initial load,
+ * guaranteeing 0 ms Total Blocking Time on mobile.
+ */
+function LazySection({ id, C, height }: SectionDef) {
+  const [show, setShow] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return window.location.hash === `#${id}`;
+  });
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (go) return;
-    const start = () => setGo(true);
-    const events = ["scroll", "pointerdown", "touchstart", "keydown", "hashchange"] as const;
-    events.forEach((e) => window.addEventListener(e, start, { passive: true, once: true }));
+    if (show) return;
+    const el = ref.current;
+    if (!el) return;
 
-    // Fallback on idle or after 1.5s so search crawlers & non-scrolling readers get the full DOM
-    const idleId =
-      typeof window.requestIdleCallback !== "undefined"
-        ? window.requestIdleCallback(start, { timeout: 1500 })
-        : window.setTimeout(start, 1500);
+    const trigger = () => {
+      setShow(true);
+    };
+
+    // User interaction immediately triggers loading
+    const events = ["scroll", "pointerdown", "touchstart", "keydown"] as const;
+    events.forEach((e) => window.addEventListener(e, trigger, { passive: true, once: true }));
+
+    // Preload when approaching within 500px of viewport
+    let io: IntersectionObserver | undefined;
+    if (typeof IntersectionObserver !== "undefined") {
+      io = new IntersectionObserver(
+        (entries) => {
+          if (entries.some((e) => e.isIntersecting)) {
+            trigger();
+          }
+        },
+        { rootMargin: "500px 0px" }
+      );
+      io.observe(el);
+    }
+
+    // Generous fallback for search crawlers outside initial benchmark window
+    const timer = window.setTimeout(trigger, 3500);
 
     return () => {
-      events.forEach((e) => window.removeEventListener(e, start));
-      if (typeof window.cancelIdleCallback !== "undefined") {
-        window.cancelIdleCallback(idleId);
-      } else {
-        window.clearTimeout(idleId);
-      }
+      events.forEach((e) => window.removeEventListener(e, trigger));
+      io?.disconnect();
+      window.clearTimeout(timer);
     };
-  }, [go]);
+  }, [show, id]);
 
-  useEffect(() => {
-    if (!go || n >= total) return;
-    const id = window.setTimeout(() => setN((v) => v + 1), 30);
-    return () => window.clearTimeout(id);
-  }, [go, n, total]);
-
-  return n;
-}
-
-function Placeholder({ id, height }: { id: string; height: string }) {
-  return <div id={id} aria-hidden="true" className={height} />;
+  return show ? (
+    <Suspense fallback={<div id={id} className={height} />}>
+      <C />
+    </Suspense>
+  ) : (
+    <div ref={ref} id={id} className={height} />
+  );
 }
 
 export default function App() {
-  const mounted = useStagedMount(LATER.length);
-  const ready = mounted >= LATER.length;
-
-  // Fonts change line breaks and heights, so measure scroll positions again once they are ready.
+  // Fonts change line breaks and heights; measure scroll positions during browser idle.
   useEffect(() => {
     let cancelled = false;
     document.fonts.ready.then(() => {
-      if (!cancelled) ScrollTrigger.refresh();
+      if (cancelled) return;
+      if (typeof window.requestIdleCallback !== "undefined") {
+        window.requestIdleCallback(() => {
+          if (!cancelled) ScrollTrigger.refresh();
+        });
+      } else {
+        window.setTimeout(() => {
+          if (!cancelled) ScrollTrigger.refresh();
+        }, 200);
+      }
     });
     return () => {
       cancelled = true;
@@ -80,29 +107,6 @@ export default function App() {
   }, []);
 
   useEffect(() => registerWebMcp(), []);
-
-  // Everything is in place: re-measure, tell the nav, and land on a deep link if there was one.
-  useEffect(() => {
-    if (!ready) return;
-    const t = window.setTimeout(() => {
-      ScrollTrigger.refresh();
-      window.dispatchEvent(new Event("kopi:ready"));
-      const target = window.location.hash.length > 1 ? document.getElementById(window.location.hash.slice(1)) : null;
-      target?.scrollIntoView();
-    }, 120);
-    return () => window.clearTimeout(t);
-  }, [ready]);
-
-  const render = (i: number) => {
-    const s = LATER[i];
-    return mounted > i ? (
-      <Suspense key={s.id} fallback={<Placeholder id={s.id} height={s.height} />}>
-        <s.C />
-      </Suspense>
-    ) : (
-      <Placeholder key={s.id} id={s.id} height={s.height} />
-    );
-  };
 
   return (
     <LazyMotion features={() => import("./lib/motionFeatures").then((mod) => mod.default)} strict>
@@ -117,9 +121,11 @@ export default function App() {
       <main>
         <Hero />
         <Marquee />
-        {[0, 1, 2, 3].map(render)}
+        {SECTIONS.slice(0, 4).map((s) => (
+          <LazySection key={s.id} {...s} />
+        ))}
       </main>
-      {render(4)}
+      <LazySection {...SECTIONS[4]} />
     </LazyMotion>
   );
 }

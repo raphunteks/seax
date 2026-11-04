@@ -311,3 +311,16 @@ body {
     transform: translateY(-6px) scale(0.97);
   }
 }
+
+@keyframes floatCup {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+.animate-float {
+  animation: floatCup 4.5s ease-in-out infinite;
+  will-change: transform;
+}
