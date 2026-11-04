@@ -79,8 +79,8 @@ export function TimeDial() {
           scrollTrigger: { trigger: "[data-dial]", start: "top 85%", once: true },
         });
       });
-      // Desktop: pinned, scrubbed through the opening window.
-      mm.add(`(min-width: 768px) and ${NO_PREF}`, () => {
+      // Pinned and scrubbed through the opening window, on phones as well (shorter run, no list).
+      mm.add(NO_PREF, () => {
         const state = { p: 0 };
         apply(0);
         gsap.to(state, {
@@ -90,15 +90,15 @@ export function TimeDial() {
           scrollTrigger: {
             trigger: scope,
             start: "top 56px",
-            end: "+=2200",
+            end: window.innerWidth < 768 ? "+=1300" : "+=2200",
             pin: true,
             scrub: 0.6,
             anticipatePin: 1,
           },
         });
       });
-      // Phones and reduced motion: still dial at 18.00, nothing pinned.
-      mm.add("(max-width: 767px), (prefers-reduced-motion: reduce)", () => {
+      // Reduced motion: still dial at 18.00, nothing pinned.
+      mm.add("(prefers-reduced-motion: reduce)", () => {
         apply((STOPS[DEFAULT_IDX].at - START) / SPAN);
       });
       return () => mm.revert();
@@ -110,18 +110,18 @@ export function TimeDial() {
 
   return (
     <section ref={root} id="jam" className="tone-light section scroll-mt-14 !py-0">
-      <div className="container-x grid min-h-[calc(100svh-56px)] items-center gap-12 py-16 md:grid-cols-2 md:py-0">
+      <div className="container-x grid min-h-[calc(100svh-56px)] items-center gap-8 py-6 md:grid-cols-2 md:gap-12 md:py-0">
         <div className="grid gap-8">
           <div className="grid gap-4">
             <h2 data-split className="display text-[clamp(32px,5.5vw,60px)]">
               SEPANJANG <span className="it">hari</span>
             </h2>
-            <p data-reveal className="text-muted">
+            <p data-reveal className="hidden text-muted md:block">
               Buka setiap hari, {open}. Ini yang kami sarankan tiap jamnya.
             </p>
           </div>
 
-          <div className="relative min-h-[132px]" aria-live="off">
+          <div className="relative min-h-[96px] md:min-h-[132px]" aria-live="off">
             {STOPS.map((s, i) => {
               const item = bySlug(s.slug);
               return (
@@ -139,7 +139,7 @@ export function TimeDial() {
             })}
           </div>
 
-          <ol className="grid gap-0 border-t border-line">
+          <ol className="hidden gap-0 border-t border-line md:grid motion-reduce:grid">
             {STOPS.map((s) => {
               const item = bySlug(s.slug);
               return (
@@ -157,7 +157,7 @@ export function TimeDial() {
           </ol>
         </div>
 
-        <div className="mx-auto grid w-full max-w-[460px] gap-4" data-reveal>
+        <div className="mx-auto grid w-full max-w-[min(460px,34svh)] gap-4 md:max-w-[460px]" data-reveal>
           <div data-dial className="relative aspect-square w-full">
           <div className="absolute inset-0 grid place-items-center">
             <div className="relative w-[27%]">

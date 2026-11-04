@@ -5,6 +5,8 @@ import { CustomEase } from "gsap/CustomEase";
 import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText, CustomEase);
+// Phones: the URL bar showing and hiding resizes the viewport; do not rebuild every scene each time.
+ScrollTrigger.config({ ignoreMobileResize: true });
 // Thesis easing: cubic-bezier(0.2, 0, 0, 1).
 CustomEase.create("kopi", "0.2,0,0,1");
 

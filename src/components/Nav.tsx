@@ -18,20 +18,30 @@ export function Nav() {
 
   const [active, setActive] = useState<string>("");
 
-  // Mark the link of the section in the middle of the screen.
+  // Mark the link of the section in the middle of the screen. Sections mount late, so observe again once they exist.
   useEffect(() => {
-    const ids = LINKS.map((l) => l.href.slice(1));
-    const els = ids.map((id) => document.getElementById(id)).filter((el): el is HTMLElement => el !== null);
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) setActive(e.target.id);
-        });
-      },
-      { rootMargin: "-45% 0px -50% 0px" },
-    );
-    els.forEach((el) => io.observe(el));
-    return () => io.disconnect();
+    let io: IntersectionObserver | undefined;
+    const observe = () => {
+      io?.disconnect();
+      io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) setActive(e.target.id);
+          });
+        },
+        { rootMargin: "-45% 0px -50% 0px" },
+      );
+      LINKS.forEach((l) => {
+        const el = document.getElementById(l.href.slice(1));
+        if (el) io?.observe(el);
+      });
+    };
+    observe();
+    window.addEventListener("kopi:ready", observe);
+    return () => {
+      window.removeEventListener("kopi:ready", observe);
+      io?.disconnect();
+    };
   }, []);
 
   // The nav arrives last, after the hero has settled. A hairline fills as the page is read.

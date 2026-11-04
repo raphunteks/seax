@@ -44,6 +44,21 @@ export function useSectionIntro(scope: RefObject<HTMLElement | null>): void {
         },
         root,
       );
+      // Reduced motion: no travel, only a short cross-fade.
+      mm.add(
+        "(prefers-reduced-motion: reduce)",
+        () => {
+          gsap.utils.toArray<HTMLElement>("[data-split], [data-reveal]", root).forEach((el) => {
+            gsap.from(el, {
+              opacity: 0,
+              duration: 0.4,
+              ease: "none",
+              scrollTrigger: { trigger: el, start: "top 90%", once: true },
+            });
+          });
+        },
+        root,
+      );
       return () => mm.revert();
     },
     { scope },
