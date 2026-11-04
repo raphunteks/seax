@@ -8,7 +8,7 @@
     <meta name="keywords" content="kopi sea, toko kopi sea, kopi makassar, es kopi aren makassar, kopi susu, matcha cloud, peach mont blanc, runut kopi sea, cafe makassar, nongkrong makassar, coffee shop makassar" />
     <meta name="author" content="Toko Kopi Sea" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-    <link rel="canonical" href="https://kopisea.com/" />
+    <link rel="canonical" href="https://kopisea.vercel.app/" />
 
     <!-- Geo Tags for Local SEO Makassar -->
     <meta name="geo.region" content="ID-SN" />
@@ -16,25 +16,38 @@
     <meta name="geo.position" content="-5.176185;119.409869" />
     <meta name="ICBM" content="-5.176185, 119.409869" />
 
-    <!-- Open Graph / Facebook -->
+    <!-- Open Graph / Facebook / WhatsApp -->
     <meta property="og:site_name" content="Toko Kopi Sea" />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://kopisea.com/" />
+    <meta property="og:url" content="https://kopisea.vercel.app/" />
     <meta property="og:title" content="Kopi SEA | Es Kopi Aren & Minuman Segar Makassar" />
     <meta property="og:description" content="Toko Kopi Sea Makassar: es kopi gula aren, kopi susu, Peach Mont Blanc, dan Matcha Cloud. Buka tiap hari 09.00–22.00 WITA." />
     <meta property="og:locale" content="id_ID" />
-    <meta property="og:image" content="https://kopisea.com/brand/og-image.png" />
-    <meta property="og:image:secure_url" content="https://kopisea.com/brand/og-image.png" />
-    <meta property="og:image:type" content="image/png" />
+    
+    <!-- Primary OG Image (Optimized JPEG for WhatsApp & Mobile Messengers) -->
+    <meta property="og:image" content="https://kopisea.vercel.app/brand/og-image.jpg" />
+    <meta property="og:image:secure_url" content="https://kopisea.vercel.app/brand/og-image.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Toko Kopi Sea Makassar - Kopi Aktif Aren" />
+
+    <!-- Secondary OG Image (Lossless PNG Fallback) -->
+    <meta property="og:image" content="https://kopisea.vercel.app/brand/og-image.png" />
+    <meta property="og:image:secure_url" content="https://kopisea.vercel.app/brand/og-image.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Fallbacks for Legacy WhatsApp & Web Crawlers -->
+    <link rel="image_src" href="https://kopisea.vercel.app/brand/og-image.jpg" />
+    <meta itemprop="image" content="https://kopisea.vercel.app/brand/og-image.jpg" />
 
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Kopi SEA | Es Kopi Aren & Minuman Segar Makassar" />
     <meta name="twitter:description" content="Toko Kopi Sea Makassar: es kopi gula aren, kopi susu, Peach Mont Blanc, dan Matcha Cloud." />
-    <meta name="twitter:image" content="https://kopisea.com/brand/og-image.png" />
+    <meta name="twitter:image" content="https://kopisea.vercel.app/brand/og-image.jpg" />
     <meta name="twitter:image:alt" content="Toko Kopi Sea Makassar" />
 
     <!-- Favicon & PWA -->
@@ -43,6 +56,103 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Structured Data (Schema.org JSON-LD) directly in HTML for search & social bots -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": ["CafeOrCoffeeShop", "LocalBusiness"],
+      "@id": "https://kopisea.vercel.app/#store",
+      "name": "Toko Kopi Sea",
+      "alternateName": ["Kopi SEA", "Kopi Sea Makassar"],
+      "url": "https://kopisea.vercel.app",
+      "logo": "https://kopisea.vercel.app/brand/logo.svg",
+      "image": "https://kopisea.vercel.app/brand/og-image.jpg",
+      "description": "Toko Kopi Sea Makassar menyajikan es kopi gula aren, kopi susu, Peach Mont Blanc, dan Matcha Cloud.",
+      "servesCuisine": ["Coffee", "Indonesian", "Beverages"],
+      "priceRange": "Rp15.000 - Rp35.000",
+      "currenciesAccepted": "IDR",
+      "paymentAccepted": "Cash, QRIS, GoPay, OVO, ShopeePay",
+      "sameAs": ["https://www.instagram.com/toko.kopisea/"],
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Jalan Andi Mappaoddang",
+        "addressLocality": "Makassar",
+        "addressRegion": "Sulawesi Selatan",
+        "addressCountry": "ID"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": -5.1761848,
+        "longitude": 119.4098693
+      },
+      "hasMap": "https://www.google.com/maps/search/?api=1&query=-5.1761848,119.4098693",
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+          "opens": "09:00",
+          "closes": "22:00"
+        }
+      ],
+      "department": [
+        {
+          "@type": "CafeOrCoffeeShop",
+          "name": "Toko Kopi Sea Mappaoddang",
+          "url": "https://shop.runut.tech/points?id=162-0362706-B74D-4E6C-9485-F38A9A3755D9",
+          "hasMap": "https://www.google.com/maps/search/?api=1&query=-5.1761848,119.4098693",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Jalan Andi Mappaoddang",
+            "addressLocality": "Makassar",
+            "addressRegion": "Sulawesi Selatan",
+            "addressCountry": "ID"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": -5.1761848,
+            "longitude": 119.4098693
+          }
+        },
+        {
+          "@type": "CafeOrCoffeeShop",
+          "name": "Toko Kopi Sea PK7",
+          "url": "https://shop.runut.tech/points?id=164-7F83712-76B4-4C5C-A725-C681B367A865",
+          "hasMap": "https://www.google.com/maps/search/?api=1&query=-5.1361401,119.4828029",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Perintis Kemerdekaan 7 (depan Stage PK 7.02)",
+            "addressLocality": "Makassar",
+            "addressRegion": "Sulawesi Selatan",
+            "addressCountry": "ID"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": -5.1361401,
+            "longitude": 119.4828029
+          }
+        },
+        {
+          "@type": "CafeOrCoffeeShop",
+          "name": "Toko Kopi Sea Toddopuli 10",
+          "url": "https://shop.runut.tech/points?id=165-0C7F9E1-1D79-47CD-AF5B-296DE655D098",
+          "hasMap": "https://www.google.com/maps/search/?api=1&query=-5.1654372,119.4589085",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Toddopuli 10",
+            "addressLocality": "Makassar",
+            "addressRegion": "Sulawesi Selatan",
+            "addressCountry": "ID"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": -5.1654372,
+            "longitude": 119.4589085
+          }
+        }
+      ]
+    }
+    </script>
 
     <script>
       try {

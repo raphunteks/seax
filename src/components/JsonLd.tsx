@@ -1,17 +1,19 @@
 import { site } from "../data/site";
 import { menu } from "../data/menu";
 
+const BASE_URL = "https://kopisea.vercel.app";
+
 /** Rich structured data for search engines (Schema.org / JSON-LD). */
 export function JsonLd() {
   const data = {
     "@context": "https://schema.org",
     "@type": ["CafeOrCoffeeShop", "LocalBusiness"],
-    "@id": "https://kopisea.com/#store",
+    "@id": `${BASE_URL}/#store`,
     name: site.storeName,
     alternateName: ["Kopi SEA", "Kopi Sea Makassar"],
-    url: "https://kopisea.com",
-    logo: "https://kopisea.com/brand/logo.svg",
-    image: "https://kopisea.com/brand/og-image.png",
+    url: BASE_URL,
+    logo: `${BASE_URL}/brand/logo.svg`,
+    image: `${BASE_URL}/brand/og-image.jpg`,
     description: "Toko Kopi Sea Makassar menyajikan es kopi gula aren, kopi susu, Peach Mont Blanc, dan Matcha Cloud.",
     servesCuisine: ["Coffee", "Indonesian", "Beverages"],
     priceRange: "Rp15.000 - Rp35.000",

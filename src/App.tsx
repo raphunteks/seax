@@ -4,7 +4,6 @@ import { ScrollTrigger } from "./lib/gsap";
 import { registerWebMcp } from "./lib/webmcp";
 import { Nav } from "./components/Nav";
 import { Cursor } from "./components/Cursor";
-import { JsonLd } from "./components/JsonLd";
 import { Marquee } from "./components/Marquee";
 import { Hero } from "./sections/Hero";
 
@@ -121,7 +120,6 @@ export default function App() {
         {[0, 1, 2, 3].map(render)}
       </main>
       {render(4)}
-      <JsonLd />
     </LazyMotion>
   );
 }

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://kopisea.com/sitemap.xml
+Sitemap: https://kopisea.vercel.app/sitemap.xml

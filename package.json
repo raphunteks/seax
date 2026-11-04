@@ -8,6 +8,7 @@
     "build": "tsc --noEmit && vite build",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
+    "test:og": "node scripts/test-og-e2e.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
