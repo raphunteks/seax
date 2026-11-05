@@ -92,7 +92,7 @@ export function Marquee() {
 
   return (
     <div ref={root} className="overflow-hidden bg-[var(--band-bg)] py-4 text-[var(--band-fg)] md:py-5">
-      <div data-track className="display flex w-max text-[clamp(22px,4vw,44px)] leading-none uppercase">
+      <div data-track className="display flex w-max text-[clamp(22px,4vw,44px)] leading-none">
         <Group />
         <Group hidden />
       </div>

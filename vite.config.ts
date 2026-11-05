@@ -47,12 +47,12 @@ const STATIC_ROUTES: RouteMeta[] = [
   {
     path: "menu",
     title: "Menu Favorit & Minuman Segar | Kopi SEA Makassar",
-    description: "Daftar menu andalan Toko Kopi Sea Makassar: es kopi gula aren, kopi susu, Peach Mont Blanc, dan Matcha Cloud. Buka tiap hari 09.00–22.00 WITA.",
+    description: "Daftar menu andalan Toko Kopi Sea Makassar: es kopi gula aren, kopi susu, Peach Mont Blanc, dan Matcha Cloud. Buka tiap hari 08.00–23.30 WITA.",
   },
   {
     path: "jam",
     title: "Jam Buka & Saran Minum | Kopi SEA Makassar",
-    description: "Panduan jam minum Toko Kopi Sea Makassar: sunrise starter, siang balance, aren boost, hingga malam chill. Buka 09.00–22.00 WITA.",
+    description: "Panduan jam minum Toko Kopi Sea Makassar: sunrise starter, siang balance, aren boost, hingga malam chill. Buka 08.00–23.30 WITA.",
   },
   {
     path: "pesan",

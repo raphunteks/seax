@@ -1,6 +1,6 @@
 # Toko Kopi Sea (Kopi SEA)
 
-> Kedai kopi dengan 3 cabang. Andalan: Kopi Aktif Aren (es kopi gula aren). Buka setiap hari pukul 09.00-22.00 WITA. Pesan langsung lewat aplikasi toko tiap cabang.
+> Kedai kopi dengan 3 cabang. Andalan: Kopi Aktif Aren (es kopi gula aren). Buka setiap hari pukul 08.00-23.30 WITA. Pesan langsung lewat aplikasi toko tiap cabang.
 
 ## Cabang dan pesan langsung
 
@@ -23,5 +23,5 @@
 
 ## Optional
 
-- Jam buka: setiap hari 09.00-22.00 WITA
+- Jam buka: setiap hari 08.00-23.30 WITA
 - Slogan: Dari teman, untuk setiap momen.

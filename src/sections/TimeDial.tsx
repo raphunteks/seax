@@ -8,16 +8,16 @@ import { CupArt } from "../components/CupArt";
 
 /** Suggested drink per hour of the shop's opening window. Copy, not data: confirm the picks with the owner. */
 const STOPS = [
-  { at: 9, label: "09.00", slug: "kopi-aktif-aren-hot", line: "Mulai pagi dengan yang hangat." },
-  { at: 12, label: "12.00", slug: "americano-ice", line: "Siang terik? Yang pekat dan dingin." },
-  { at: 15, label: "15.00", slug: "lemon-honey", line: "Sore hari, yang segar dulu." },
-  { at: 18, label: "18.00", slug: "kopi-aktif-aren", line: "Pulang kerja, ngopi bareng teman." },
-  { at: 21, label: "21.00", slug: "kopi-sosial-ice", line: "Malam belum selesai. Tetap aktif." },
+  { at: 8, label: "08.00", slug: "kopi-aktif-aren-hot", line: "Mulai pagi dengan yang hangat." },
+  { at: 11, label: "11.00", slug: "americano-ice", line: "Siang terik? Yang pekat dan dingin." },
+  { at: 14, label: "14.00", slug: "lemon-honey", line: "Sore hari, yang segar dulu." },
+  { at: 17, label: "17.00", slug: "kopi-aktif-aren", line: "Pulang kerja, ngopi bareng teman." },
+  { at: 20, label: "20.00", slug: "kopi-sosial-ice", line: "Malam belum selesai. Tetap aktif." },
 ] as const;
 
-const START = 9; // opening hour
-const SPAN = 13; // 09.00 to 22.00
-const DEFAULT_IDX = 3; // resting state (phones, reduced motion): 18.00
+const START = 8; // opening hour
+const SPAN = 15.5; // 08.00 to 23.30
+const DEFAULT_IDX = 3; // resting state (phones, reduced motion): 17.00
 const CENTER = 200;
 
 const TICKS = Array.from({ length: 60 }, (_, i) => {
@@ -101,7 +101,7 @@ export function TimeDial() {
           },
         });
       });
-      // Reduced motion: still dial at 18.00, nothing pinned.
+      // Reduced motion: still dial at 17.00, nothing pinned.
       mm.add("(prefers-reduced-motion: reduce)", () => {
         apply((STOPS[DEFAULT_IDX].at - START) / SPAN);
       });

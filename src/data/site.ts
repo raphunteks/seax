@@ -7,12 +7,12 @@ export const site = {
   storeName: "Toko Kopi Sea",
   tagline: "Dari teman, untuk setiap momen.",
   instagram: { handle: "toko.kopisea", url: "https://www.instagram.com/toko.kopisea/" },
-  /** Confirmed by the owner on 2026-11-05: every day, 09.00-22.00 WITA. */
-  hours: { open: "09:00", close: "22:00", openLabel: "09.00", closeLabel: "22.00", zoneLabel: "WITA" },
+  /** Confirmed by the owner on 2026-11-05: every day, 08.00-23.30 WITA (updated by the owner on 2026-11-05). */
+  hours: { open: "08:00", close: "23:30", openLabel: "08.00", closeLabel: "23.30", zoneLabel: "WITA" },
   /** Opening hours are evaluated in this zone, whatever the visitor's own zone is. */
   timeZone: "Asia/Makassar",
   /**
-   * Three branches. Coordinates come from the owner; the first one also has an owner-supplied Google embed.
+   * Three branches. Coordinates come from the owner; all three have owner-supplied Google embeds.
    * orderUrl is what each branch's own QR code points to (the shop app), read from the QR images the owner supplied.
    */
   branches: [
@@ -35,7 +35,8 @@ export const site = {
       qr: "/qr/pk7.png",
       lat: -5.1361401,
       lng: 119.4828029,
-      embedUrl: "https://www.google.com/maps?q=-5.1361401,119.4828029&z=17&output=embed",
+      embedUrl:
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3973.7983857511836!2d119.4828029!3d-5.136140099999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dbefd003ff35d13%3A0x7ac3c8336bfdcca7!2sKopi%20Sea%20Perintis%20Kemerdekaan%207!5e0!3m2!1sid!2sid!4v1793875456863!5m2!1sid!2sid",
     },
     {
       id: "toddopuli",
@@ -45,7 +46,8 @@ export const site = {
       qr: "/qr/toddopuli.png",
       lat: -5.1654372,
       lng: 119.4589085,
-      embedUrl: "https://www.google.com/maps?q=-5.1654372,119.4589085&z=17&output=embed",
+      embedUrl:
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31788.972619162658!2d119.41754910143653!3d-5.164424626302052!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dbee36776b96a85%3A0x4554fa5e003dbbd1!2sKopi%20Sea%20Toddopuli!5e0!3m2!1sid!2sid!4v1793875359366!5m2!1sid!2sid",
     },
   ],
 } as const;

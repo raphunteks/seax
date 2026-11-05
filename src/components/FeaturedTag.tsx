@@ -10,7 +10,7 @@ export function FeaturedTag({ item }: { item: MenuItem }) {
       <AnimatePresence mode="wait" initial={false}>
         <m.span
           key={item.slug}
-          className="font-mono text-[12px] tracking-[0.06em] whitespace-nowrap text-on-surface uppercase"
+          className="font-mono text-[12px] tracking-[0.06em] whitespace-nowrap text-on-surface"
           initial={reduce ? { opacity: 0 } : { opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           exit={reduce ? { opacity: 0 } : { opacity: 0, y: -8 }}

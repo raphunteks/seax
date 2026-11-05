@@ -92,7 +92,7 @@ export function Hero() {
     <section ref={root} id="top" className="tone-light section relative overflow-hidden pt-28 pb-16 md:pt-36 md:pb-24">
       <div className="container-x grid items-center gap-12 md:grid-cols-[1.1fr_0.9fr]">
         <div data-hero-copy className="grid gap-8">
-          <div data-hero-chip className="mono-label inline-flex w-fit items-center gap-2 rounded-full border border-line px-3 py-2">
+          <div data-hero-chip className="mono-label !normal-case inline-flex w-fit items-center gap-2 rounded-full border border-line px-3 py-2">
             <span aria-hidden="true" className={`h-2 w-2 rounded-full ${open ? "bg-accent" : "bg-muted"}`} />
             {open ? "Buka sekarang" : "Tutup"} · {site.hours.openLabel}–{site.hours.closeLabel} {site.hours.zoneLabel}
           </div>

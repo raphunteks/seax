@@ -5,7 +5,7 @@ description: Answer questions about Toko Kopi Sea in Makassar (menu and prices, 
 
 # Toko Kopi Sea (Kopi SEA)
 
-Coffee shop with 3 branches in Makassar. Open every day 09.00-22.00 WITA. Best known for Kopi Aktif Aren (iced coffee with palm sugar).
+Coffee shop with 3 branches in Makassar. Open every day 08.00-23.30 WITA. Best known for Kopi Aktif Aren (iced coffee with palm sugar).
 
 ## Ordering
 Each branch has its own ordering link in the shop app. Send the person to the link of the branch they choose. Do not take orders or payments yourself.

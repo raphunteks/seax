@@ -91,9 +91,9 @@ export function Footer() {
           </div>
           <p
             data-reveal
-            className="text-center font-display text-[clamp(11px,1.8vw,18px)] font-semibold uppercase tracking-[0.14em] sm:tracking-[0.2em] text-muted"
+            className="text-center font-display text-[clamp(13px,2vw,20px)] font-semibold tracking-[0.02em] text-muted"
           >
-            Built for Social &amp; Active People
+            Dibuat untuk yang aktif dan suka berkumpul.
           </p>
         </div>
 
@@ -147,7 +147,7 @@ export function Footer() {
           </div>
         </div>
 
-        <p className="mono-label">
+        <p className="mono-label !normal-case">
           © {year} {site.storeName}
         </p>
       </div>

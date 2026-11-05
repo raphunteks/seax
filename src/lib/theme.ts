@@ -7,7 +7,7 @@ export const STORAGE_KEY = "kopisea-theme";
 export const THEMES: { id: ThemeId; label: string; note: string; surface: string; accent: string; band: string }[] = [
   { id: "siang", label: "Siang", note: "Krem dan kobalt", surface: "#FDFBF5", accent: "#0F3BB4", band: "#0A0D18" },
   { id: "malam", label: "Malam", note: "Navy pekat", surface: "#0F1426", accent: "#7C97FF", band: "#0A0D18" },
-  { id: "aren", label: "Aren", note: "Karamel dan espresso", surface: "#F4E8D6", accent: "#A34E0C", band: "#2B1710" },
+  { id: "aren", label: "Aren", note: "Gula aren dan espresso", surface: "#E8B565", accent: "#A34E0C", band: "#2B1710" },
   { id: "pandan", label: "Pandan", note: "Hijau segar", surface: "#EAF3EA", accent: "#17694A", band: "#0F2A1E" },
   { id: "sunrise", label: "Sunrise", note: "Jingga dan plum", surface: "#FFE9DA", accent: "#B8310C", band: "#2A1030" },
 ];

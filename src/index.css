@@ -80,17 +80,17 @@
   color-scheme: dark;
 }
 :root[data-theme="aren"] {
-  --t-surface: #F4E8D6;
-  --t-panel: #FFF6E8;
-  --t-text: #2B1710;
-  --t-muted: #6B4A38;
-  --t-line: #D9C3A2;
-  --t-accent: #A34E0C;
+  --t-surface: #E8B565;
+  --t-panel: #F3CE8E;
+  --t-text: #26140A;
+  --t-muted: #5A3414;
+  --t-line: #C48F42;
+  --t-accent: #7A2E05;
   --t-btn: #2B1710;
-  --t-btnfg: #FFF6E8;
+  --t-btnfg: #F3CE8E;
   --a-surface: #2B1710;
   --a-panel: #3A2217;
-  --a-text: #F4E8D6;
+  --a-text: #F3CE8E;
   --a-muted: #CDB394;
   --a-line: #5A3A28;
   --a-accent: #F0A04B;

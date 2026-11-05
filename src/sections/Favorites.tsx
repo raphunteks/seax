@@ -211,7 +211,7 @@ export function Favorites() {
                   <span className="truncate">{m.name}</span>
                   <span className="mono-label text-[10px] md:hidden">{m.category}</span>
                 </span>
-                {i === 0 ? <span className="mono-label hidden text-accent xl:inline">Paling direkomendasikan</span> : null}
+                {i === 0 ? <span className="mono-label !normal-case hidden text-accent xl:inline">Paling direkomendasikan</span> : null}
                 <span className="mono-label hidden w-[88px] text-right lg:inline">{m.category}</span>
                 <span className="w-[76px] text-right font-mono text-sm whitespace-nowrap text-muted">{formatIDR(m.price)}</span>
               </li>
