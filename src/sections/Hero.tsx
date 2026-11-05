@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { gsap, NO_PREF, SplitText, useGSAP } from "../lib/gsap";
+import { gsap, NO_PREF, useGSAP } from "../lib/gsap";
 import { featured } from "../data/menu";
 import { site } from "../data/site";
 import { useOpenNow } from "../hooks/useOpenNow";
@@ -24,44 +24,27 @@ export function Hero() {
       if (!scope) return;
       const mm = gsap.matchMedia();
 
-      // Entrance: headline lines, copy, buttons, product rises, tag last.
+      // Entrance: headline, copy, buttons, product rises. Snappy & lightweight for instant speed index.
       mm.add(NO_PREF, () => {
         const title = scope.querySelector<HTMLElement>("[data-hero-title]");
-        let split: SplitText | undefined;
-        let cancelled = false;
         if (title) {
-          document.fonts.ready.then(() => {
-            if (cancelled) return;
-            if (window.innerWidth >= 768) {
-              split = SplitText.create(title, { type: "lines", mask: "lines" });
-              gsap.from(split.lines, {
-                yPercent: 110,
-                duration: 0.6,
-                stagger: 0.05,
-                ease: "kopi",
-              });
-            } else {
-              gsap.from(title, {
-                y: 16,
-                opacity: 0,
-                duration: 0.5,
-                ease: "kopi",
-              });
-            }
+          gsap.from(title, {
+            y: 14,
+            opacity: 0.6,
+            duration: 0.35,
+            ease: "kopi",
           });
         }
 
-        const tl = gsap.timeline({ delay: 0.05, defaults: { ease: "kopi" } });
-        tl.from("[data-hero-chip]", { opacity: 0, duration: 0.3 }, 0)
-          .from("[data-hero-sub]", { y: 12, opacity: 0.2, duration: 0.5 }, 0.1)
-          .from("[data-hero-cta]", { y: 12, opacity: 0, duration: 0.5 }, 0.15)
-          .from("[data-rise]", { y: 40, opacity: 0, duration: 0.6, stagger: 0.05 }, 0.1)
-          .from("[data-hero-tag]", { opacity: 0, duration: 0.4 }, 0.5);
+        const tl = gsap.timeline({ defaults: { ease: "kopi" } });
+        tl.from("[data-hero-chip]", { opacity: 0.4, duration: 0.25 }, 0)
+          .from("[data-hero-sub]", { y: 10, opacity: 0.6, duration: 0.3 }, 0.05)
+          .from("[data-hero-cta]", { y: 10, opacity: 0.5, duration: 0.3 }, 0.08)
+          .from("[data-rise]", { y: 20, opacity: 0.5, duration: 0.35, stagger: 0.03 }, 0.05)
+          .from("[data-hero-tag]", { opacity: 0.4, duration: 0.25 }, 0.15);
 
         return () => {
-          cancelled = true;
-          split?.revert();
-          if (title) gsap.set(title, { clearProps: "visibility,opacity" });
+          if (title) gsap.set(title, { clearProps: "visibility,opacity,transform" });
         };
       });
 

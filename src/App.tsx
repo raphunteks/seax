@@ -90,7 +90,7 @@ function LazySection({ id, C, height }: SectionDef) {
     const events = ["scroll", "pointerdown", "touchstart", "keydown"] as const;
     events.forEach((e) => window.addEventListener(e, trigger, { passive: true, once: true }));
 
-    // Preload when approaching within 500px of viewport
+    // Preload when approaching within 100px of viewport
     let io: IntersectionObserver | undefined;
     if (typeof IntersectionObserver !== "undefined") {
       io = new IntersectionObserver(
@@ -99,7 +99,7 @@ function LazySection({ id, C, height }: SectionDef) {
             trigger();
           }
         },
-        { rootMargin: "500px 0px" }
+        { rootMargin: "100px 0px" }
       );
       io.observe(el);
     }

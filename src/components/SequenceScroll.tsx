@@ -111,17 +111,41 @@ export function SequenceScroll() {
     };
   }, [schedule]);
 
-  // Preload with limited concurrency. Reduced motion only needs the last frame.
+  // Preload with limited concurrency. Frame 0 is loaded first for instant cover,
+  // then remaining frames start loading on user interaction or idle callback.
   useEffect(() => {
     if (COUNT === 0) return;
     let dead = false;
-    const order = reduce ? [COUNT - 1] : Array.from({ length: COUNT }, (_, i) => i);
-    if (reduce) current.current = COUNT - 1;
-    let cursor = 0;
+    if (reduce) {
+      current.current = COUNT - 1;
+      const lastImg = new Image();
+      lastImg.decoding = "async";
+      lastImg.src = FRAME_URLS[COUNT - 1];
+      void lastImg.decode().then(() => {
+        if (dead) return;
+        frames.current[COUNT - 1] = lastImg;
+        schedule();
+      });
+      return () => {
+        dead = true;
+      };
+    }
 
+    // Load first frame immediately for instant visual
+    const firstImg = new Image();
+    firstImg.decoding = "async";
+    firstImg.src = FRAME_URLS[0];
+    void firstImg.decode().then(() => {
+      if (dead) return;
+      frames.current[0] = firstImg;
+      schedule();
+    });
+
+    let started = false;
+    let cursor = 1;
     const worker = async () => {
-      while (!dead && cursor < order.length) {
-        const i = order[cursor++];
+      while (!dead && cursor < COUNT) {
+        const i = cursor++;
         const img = new Image();
         img.decoding = "async";
         img.src = FRAME_URLS[i];
@@ -132,12 +156,37 @@ export function SequenceScroll() {
         }
         if (dead) return;
         frames.current[i] = img;
-        if (i === current.current || i < 2) schedule();
+        if (i === current.current || i < 3) schedule();
       }
     };
-    for (let k = 0; k < CONCURRENCY; k++) void worker();
+
+    const startWorkers = () => {
+      if (started || dead) return;
+      started = true;
+      for (let k = 0; k < CONCURRENCY; k++) void worker();
+    };
+
+    window.addEventListener("scroll", startWorkers, { passive: true, once: true });
+    window.addEventListener("wheel", startWorkers, { passive: true, once: true });
+    window.addEventListener("touchstart", startWorkers, { passive: true, once: true });
+
+    let idleId: number | undefined;
+    let timerId: ReturnType<typeof setTimeout> | undefined;
+    if (typeof window !== "undefined" && "requestIdleCallback" in window) {
+      idleId = (window as unknown as { requestIdleCallback: (cb: () => void, opts?: { timeout: number }) => number }).requestIdleCallback(startWorkers, { timeout: 3000 });
+    } else {
+      timerId = setTimeout(startWorkers, 2000);
+    }
+
     return () => {
       dead = true;
+      window.removeEventListener("scroll", startWorkers);
+      window.removeEventListener("wheel", startWorkers);
+      window.removeEventListener("touchstart", startWorkers);
+      if (idleId && typeof window !== "undefined" && "cancelIdleCallback" in window) {
+        (window as unknown as { cancelIdleCallback: (id: number) => void }).cancelIdleCallback(idleId);
+      }
+      if (timerId) clearTimeout(timerId);
     };
   }, [reduce, schedule]);
 
