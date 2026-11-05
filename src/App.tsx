@@ -7,6 +7,7 @@ import { Cursor } from "./components/Cursor";
 import { Marquee } from "./components/Marquee";
 import { Hero } from "./sections/Hero";
 
+const SequenceScroll = lazy(() => import("./components/SequenceScroll").then((m) => ({ default: m.SequenceScroll })));
 const Favorites = lazy(() => import("./sections/Favorites").then((m) => ({ default: m.Favorites })));
 const TimeDial = lazy(() => import("./sections/TimeDial").then((m) => ({ default: m.TimeDial })));
 const Statement = lazy(() => import("./sections/Statement").then((m) => ({ default: m.Statement })));
@@ -20,6 +21,7 @@ interface SectionDef {
 }
 
 const SECTIONS: SectionDef[] = [
+  { id: "sea", C: SequenceScroll, height: "min-h-[400svh]" },
   { id: "menu", C: Favorites, height: "min-h-[100svh]" },
   { id: "jam", C: TimeDial, height: "min-h-[100svh]" },
   { id: "aktif", C: Statement, height: "min-h-[80svh]" },
@@ -32,6 +34,18 @@ const SECTIONS: SectionDef[] = [
  * or touches the screen. Off-screen sections are kept unmounted during initial load,
  * guaranteeing 0 ms Total Blocking Time on mobile.
  */
+function shouldInitiallyMount(id: string): boolean {
+  if (typeof window === "undefined") return false;
+  const path = window.location.pathname.replace(/^\/|\/$/g, "");
+  const hash = window.location.hash.replace(/^#/, "");
+  const target = path || hash;
+  if (!target) return false;
+  const targetIdx = SECTIONS.findIndex((s) => s.id === target);
+  if (targetIdx === -1) return false;
+  const myIdx = SECTIONS.findIndex((s) => s.id === id);
+  return myIdx <= targetIdx;
+}
+
 function isRouteMatch(id: string): boolean {
   if (typeof window === "undefined") return false;
   const path = window.location.pathname.replace(/^\/|\/$/g, "");
@@ -40,7 +54,7 @@ function isRouteMatch(id: string): boolean {
 }
 
 function LazySection({ id, C, height }: SectionDef) {
-  const [show, setShow] = useState(() => isRouteMatch(id));
+  const [show, setShow] = useState(() => shouldInitiallyMount(id));
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -53,7 +67,7 @@ function LazySection({ id, C, height }: SectionDef) {
     window.addEventListener("route-navigate", onRouteNav);
 
     const onPopState = () => {
-      if (isRouteMatch(id)) trigger();
+      if (shouldInitiallyMount(id)) trigger();
     };
     window.addEventListener("popstate", onPopState);
 
@@ -108,8 +122,8 @@ function LazySection({ id, C, height }: SectionDef) {
     if (isRouteMatch(id)) {
       const timer = window.setTimeout(() => {
         const el = document.getElementById(id);
-        el?.scrollIntoView({ behavior: "smooth" });
-      }, 100);
+        el?.scrollIntoView({ behavior: "instant" });
+      }, 50);
       return () => window.clearTimeout(timer);
     }
   }, [show, id]);
@@ -159,11 +173,11 @@ export default function App() {
       <main>
         <Hero />
         <Marquee />
-        {SECTIONS.slice(0, 4).map((s) => (
+        {SECTIONS.slice(0, 5).map((s) => (
           <LazySection key={s.id} {...s} />
         ))}
       </main>
-      <LazySection {...SECTIONS[4]} />
+      <LazySection {...SECTIONS[5]} />
     </LazyMotion>
   );
 }

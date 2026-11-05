@@ -44,13 +44,15 @@ const pad = (n: number) => String(n).padStart(2, "0");
 
 export function TimeDial() {
   const root = useRef<HTMLElement>(null);
+  const pinRef = useRef<HTMLDivElement>(null);
   useSectionIntro(root);
   const viewport = useViewportKey();
 
   useGSAP(
     () => {
       const scope = root.current;
-      if (!scope) return;
+      const pinTarget = pinRef.current;
+      if (!scope || !scope.isConnected || !scope.parentElement || !pinTarget || !pinTarget.parentElement) return;
       const hand = scope.querySelector<SVGLineElement>("[data-hand]");
       const readout = scope.querySelector<HTMLElement>("[data-readout]");
       const cups = gsap.utils.toArray<HTMLElement>("[data-cup]", scope);
@@ -91,9 +93,9 @@ export function TimeDial() {
           onUpdate: () => apply(state.p),
           scrollTrigger: {
             trigger: scope,
+            pin: pinTarget,
             start: "top 56px",
             end: window.innerWidth < 768 ? "+=1300" : "+=2200",
-            pin: true,
             scrub: 0.6,
             anticipatePin: 1,
           },
@@ -112,7 +114,7 @@ export function TimeDial() {
 
   return (
     <section ref={root} id="jam" className="tone-light section scroll-mt-14 !py-0">
-      <div className="container-x grid h-[calc(100svh-56px)] items-center gap-6 py-4 md:grid-cols-2 md:gap-12 md:py-6">
+      <div ref={pinRef} className="container-x grid h-[calc(100svh-56px)] items-center gap-6 py-4 md:grid-cols-2 md:gap-12 md:py-6">
         <div className="grid gap-5 md:gap-6">
           <div className="grid gap-3">
             <h2 data-split className="display text-[clamp(26px,min(4.4vw,8svh),48px)]">

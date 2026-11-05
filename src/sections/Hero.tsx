@@ -67,9 +67,18 @@ export function Hero() {
 
       // As the hero scrolls away, the product stack drifts slower than the copy (depth by scroll).
       mm.add(NO_PREF, () => {
-        const trigger = { trigger: scope, start: "top top", end: "bottom top", scrub: true } as const;
-        gsap.to("[data-hero-stack]", { yPercent: -14, scale: 0.94, ease: "none", scrollTrigger: trigger });
-        gsap.to("[data-hero-copy]", { yPercent: 8, opacity: 0.35, ease: "none", scrollTrigger: trigger });
+        gsap.to("[data-hero-stack]", {
+          yPercent: -14,
+          scale: 0.94,
+          ease: "none",
+          scrollTrigger: { trigger: scope, start: "top top", end: "bottom top", scrub: true },
+        });
+        gsap.to("[data-hero-copy]", {
+          yPercent: 8,
+          opacity: 0.35,
+          ease: "none",
+          scrollTrigger: { trigger: scope, start: "top top", end: "bottom top", scrub: true },
+        });
       });
 
       // Three-layer mouse parallax, mouse only.

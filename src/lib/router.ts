@@ -30,3 +30,4 @@ export function navigateTo(target: string) {
   // Notify components (e.g. lazy-loaded sections) to mount if not yet active
   window.dispatchEvent(new CustomEvent("route-navigate", { detail: { id: clean } }));
 }
+

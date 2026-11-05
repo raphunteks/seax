@@ -21,13 +21,15 @@ const pad = (n: number) => String(n).padStart(2, "0");
  */
 export function Favorites() {
   const root = useRef<HTMLElement>(null);
+  const pinRef = useRef<HTMLDivElement>(null);
   useSectionIntro(root);
   const viewport = useViewportKey();
 
   useGSAP(
     () => {
       const scope = root.current;
-      if (!scope) return;
+      const pinTarget = pinRef.current;
+      if (!scope || !scope.isConnected || !scope.parentElement || !pinTarget || !pinTarget.parentElement) return;
       const mm = gsap.matchMedia();
 
       // Faint wave shape drifts against the scroll (parallax).
@@ -44,6 +46,7 @@ export function Favorites() {
       });
 
       const build = (compact: boolean) => {
+        if (!scope.isConnected || !scope.parentElement || !pinTarget.isConnected || !pinTarget.parentElement) return;
         const phone = compact;
         const slides = gsap.utils.toArray<HTMLElement>("[data-slide]", scope);
         const rows = gsap.utils.toArray<HTMLElement>("[data-row]", scope);
@@ -75,9 +78,9 @@ export function Favorites() {
           defaults: { ease: "none" },
           scrollTrigger: {
             trigger: scope,
+            pin: pinTarget,
             start: "top 56px",
             end: `+=${Math.round(total * (compact ? PX_PHONE : PX_DESKTOP))}`,
-            pin: true,
             scrub: 0.6,
             anticipatePin: 1,
             snap: {
@@ -142,7 +145,7 @@ export function Favorites() {
         />
       </svg>
 
-      <div className="container-x relative grid h-[calc(100svh-56px)] grid-rows-[minmax(0,1fr)_auto] gap-3 py-4 md:grid-cols-[0.9fr_1.1fr] md:grid-rows-1 md:items-center md:gap-14 md:py-6">
+      <div ref={pinRef} className="container-x relative grid h-[calc(100svh-56px)] grid-rows-[minmax(0,1fr)_auto] gap-3 py-4 md:grid-cols-[0.9fr_1.1fr] md:grid-rows-1 md:items-center md:gap-14 md:py-6">
         <div className="grid h-full min-h-0 grid-rows-[auto_minmax(0,1fr)_auto] gap-3 md:max-h-[620px] md:gap-5">
           <div className="grid gap-2 md:gap-3">
             <h2 data-split className="display text-[clamp(26px,min(4vw,7svh),44px)]">
